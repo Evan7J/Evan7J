@@ -10,7 +10,7 @@
 
 **后端**：Java · Spring Boot · Spring Cloud Alibaba · MyBatis-Plus · Sa-Token
 **数据与中间件**：MySQL · Redis · RocketMQ · Elasticsearch · PostgreSQL / pgvector
-**AI 应用**：Spring AI · Function Calling · RAG · Agent 编排（LangGraph）
+**AI 应用**：Spring AI · Spring AI Alibaba Graph · Function Calling · RAG · Agent 编排（LangGraph）
 **前端**：Vue 3 + Element Plus（能独立完成页面和联调，主力还是后端）
 **工具**：Git · Docker Compose · Maven · Linux
 
@@ -27,18 +27,20 @@
 - RocketMQ 异步下单削峰 + 延迟消息关单，配定时任务扫库兜底
 - 双层缓存防护：布隆过滤器挡不存在的 ID、缓存空值防穿透、互斥锁防击穿
 
-`Java 17` `Spring Boot 3` `Redis` `RocketMQ` `MySQL` `Docker`
+`Java 17` `Spring Boot 3.2` `Redis` `RocketMQ` `MySQL` `Docker`
 
 #### [UniTrade](https://github.com/Evan7J/UniTrade) · 校园二手交易平台
 
-校园闲置交易平台，含商品、订单、实时聊天和后台管理，并集成了基于大模型的 AI 助手模块。
+校园闲置交易平台，含商品、订单、实时聊天和后台管理，核心是一个**能自己议价的 Agent**——替卖家谈，但拿不到卖家的底价。
 
-- WebSocket 长连接实时聊天，消息先落库再推送，离线消息下次登录可见
-- 商品搜索支持关键词与语义两路召回，向量服务异常时自动降级为纯关键词检索
-- 基于 Spring AI 实现工具调用（商品搜索、分类查询、发布草稿生成）
-- JWT 认证 + 拦截器校验，接口按读写维度分级限流
+- 议价链路用 Spring AI Alibaba Graph 做状态图编排：意图识别 → 报价计算 → 风控闸门 → 话术生成，节点不碰数据库，只做内存计算
+- 报价全部由代码算，模型不参与任何数值；几何衰减保证单调递减，锚点抖动让底价无法被一行算式反解
+- 越界出价不直接拒绝而是挂起转人工，放行由卖家确认并留痕；Agent 自主轮次上限 5 轮
+- 四重防重（Redis `SET NX` / 轮次 CAS / 会话级串行化 / 数据库唯一索引），Redis 不可用时放行而不是报错
+- 评测可复现：意图识别 130 条 Macro-F1 91.2%；对抗 70 条中 33 条构成越界，全部拦下、误放 0
+- 模型分级路由 + 内容哈希缓存压成本，报价绝不缓存（依赖会话状态，命中旧值会击穿单调性）
 
-`Java 17` `Spring Boot 3` `Spring AI` `MySQL` `Redis` `Vue 3`
+`Java 21` `Spring Boot 3.4` `Spring AI` `Milvus` `MySQL` `Redis` `Vue 3`
 
 #### [rag-agent](https://github.com/Evan7J/rag-agent) · 文档问答
 
