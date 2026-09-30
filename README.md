@@ -1,16 +1,11 @@
 ## 你好 👋
-
-我是江裕文，计算机科学与技术专业在读，方向是 **Java 后端**。
-
-喜欢把项目做完、做扎实——比起"跑起来了"，更在意"为什么这样设计、出问题会不会兜住"。
-
----
+计算机科学与技术专业在读，方向是 **后端开发**。
 
 ### 技术栈
 
 **后端**：Java · Spring Boot · Spring Cloud Alibaba · MyBatis-Plus · Sa-Token
-**数据与中间件**：MySQL · Redis · RocketMQ · Elasticsearch · PostgreSQL / pgvector
-**AI 应用**：Spring AI · Spring AI Alibaba Graph · Function Calling · RAG · Agent 编排（LangGraph）
+**数据与中间件**：MySQL · Redis · RocketMQ · Elasticsearch 
+**AI 应用**：Spring AI · Spring AI Alibaba Graph RAG
 **前端**：Vue 3 + Element Plus（能独立完成页面和联调，主力还是后端）
 **工具**：Git · Docker Compose · Maven · Linux
 
@@ -29,7 +24,7 @@
 
 `Java 17` `Spring Boot 3.2` `Redis` `RocketMQ` `MySQL` `Docker`
 
-#### [UniTrade](https://github.com/Evan7J/UniTrade) · 校园二手交易平台
+#### [UniTrade](https://github.com/Evan7J/UniTrade) · 智能议价agent
 
 校园闲置交易平台，含商品、订单、实时聊天和后台管理，核心是一个**能自己议价的 Agent**——替卖家谈，但拿不到卖家的底价。
 
